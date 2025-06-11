@@ -7,9 +7,10 @@ import {
   IconButton,
   Input,
   Flex,
+  useToken,
 } from "@chakra-ui/react";
 import { Eye, EyeOff, LogIn } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/app/navbar";
@@ -126,6 +127,11 @@ const AdminLoginPage: React.FC = () => {
                   borderColor: emailError ? "red.500" : "pink.500",
                 }}
               />
+              {emailError && (
+                <Text fontSize="xs" color="red.500">
+                  Email is required.
+                </Text>
+              )}
             </Stack>
 
             <Stack gap={2}>
@@ -142,7 +148,6 @@ const AdminLoginPage: React.FC = () => {
                     borderColor: passwordError ? "red.500" : "pink.500",
                   }}
                 />
-
                 <IconButton
                   aria-label="Toggle password visibility"
                   variant="ghost"
@@ -156,6 +161,11 @@ const AdminLoginPage: React.FC = () => {
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </IconButton>
               </Box>
+              {passwordError && (
+                <Text fontSize="xs" color="red.500">
+                  Password is required.
+                </Text>
+              )}
             </Stack>
 
             <Button
@@ -179,13 +189,13 @@ const AdminLoginPage: React.FC = () => {
 
       <Footer />
 
-      {/* Custom centered popup */}
+      {/* Custom bottom popup */}
       {showPopup && (
         <Box
           position="fixed"
-          top="50%"
+          bottom="4rem"
           left="50%"
-          transform="translate(-50%, -50%)"
+          transform="translateX(-50%)"
           bg="gray.800"
           px={6}
           py={4}
@@ -193,6 +203,7 @@ const AdminLoginPage: React.FC = () => {
           boxShadow="xl"
           zIndex={9999}
           minW="xs"
+          maxW="sm"
           textAlign="center"
         >
           <Text color="white" fontWeight="medium">
