@@ -24,20 +24,19 @@ import axios from "axios";
 
 type ProductResponseDTO = {
   id: number;
-  name: string;
-  description: string;
+  productName: string;
   price: number;
 };
 
 type ProductRequestDTO = {
-  name: string;
-  description: string;
+  productName: string;
+  quantity: number;
   price: number;
 };
 
 const AdminDashboardPage: React.FC = () => {
   const [products, setProducts] = useState<ProductResponseDTO[]>([]);
-  const [form, setForm] = useState({ name: "", description: "", price: "" });
+  const [form, setForm] = useState({ name: "", price: "", quantity: "1" });
   const [editId, setEditId] = useState<number | null>(null);
 
   const { open, onOpen, onClose } = useDisclosure();
@@ -45,8 +44,20 @@ const AdminDashboardPage: React.FC = () => {
   const API_BASE = "http://localhost:8080/api/products";
 
   const fetchProducts = async () => {
-    const res = await axios.get<ProductResponseDTO[]>(API_BASE);
-    setProducts(res.data);
+    try {
+      const token = sessionStorage.getItem("auth-token");
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.get<ProductResponseDTO[]>(API_BASE, config);
+      setProducts(res.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
   };
 
   useEffect(() => {
@@ -54,35 +65,61 @@ const AdminDashboardPage: React.FC = () => {
   }, []);
 
   const handleSubmit = async () => {
-    const dto: ProductRequestDTO = {
-      name: form.name,
-      description: form.description,
-      price: parseFloat(form.price),
-    };
+    try {
+      const dto: ProductRequestDTO = {
+        productName: form.name,
+        quantity: parseInt(form.quantity) || 1,
+        price: parseFloat(form.price),
+      };
 
-    if (editId !== null) {
-      await axios.put(`${API_BASE}/${editId}`, dto);
-    } else {
-      await axios.post(API_BASE, dto);
+      const token = sessionStorage.getItem("auth-token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+
+      if (editId !== null) {
+        await axios.put(`${API_BASE}/${editId}`, dto, config);
+      } else {
+        await axios.post(API_BASE, dto, config);
+      }
+
+      onClose();
+      setEditId(null);
+      setForm({ name: "", price: "", quantity: "1" });
+      fetchProducts();
+    } catch (error) {
+      console.error("Error submitting product:", error);
+      alert(
+        "Failed to submit product. Please check your permissions or try again.",
+      );
     }
-
-    onClose();
-    setEditId(null);
-    setForm({ name: "", description: "", price: "" });
-    fetchProducts();
   };
 
   const handleDelete = async (id: number) => {
-    await axios.delete(`${API_BASE}/${id}`);
-    fetchProducts();
+    try {
+      const token = sessionStorage.getItem("auth-token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+      await axios.delete(`${API_BASE}/${id}`, config);
+      fetchProducts();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
   };
 
   const handleEdit = (product: ProductResponseDTO) => {
     setEditId(product.id);
     setForm({
-      name: product.name,
-      description: product.description,
+      name: product.productName,
       price: product.price.toString(),
+      quantity: "1",
     });
     onOpen();
   };
@@ -112,10 +149,7 @@ const AdminDashboardPage: React.FC = () => {
                 p={4}
                 boxShadow="sm"
               >
-                <Text fontWeight="bold">{product.name}</Text>
-                <Text fontSize="sm" color="gray.600" lineClamp={2}>
-                  {product.description}
-                </Text>
+                <Text fontWeight="bold">{product.productName}</Text>
                 <Text color="green.600" mt={2}>
                   ${product.price}
                 </Text>
@@ -191,8 +225,6 @@ const AdminDashboardPage: React.FC = () => {
               overflow="hidden"
               position="relative"
             >
-              {/* Rest of your modal content stays the same */}
-              {/* Decorative top section */}
               <Box
                 h="80px"
                 bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
@@ -239,7 +271,6 @@ const AdminDashboardPage: React.FC = () => {
                 _hover={{ bg: "whiteAlpha.300" }}
               />
 
-              {/* Form section */}
               <Box p={8}>
                 <VStack gap={6}>
                   <Box w="full">
@@ -280,14 +311,15 @@ const AdminDashboardPage: React.FC = () => {
                         fontWeight="semibold"
                         color="gray.700"
                       >
-                        📝 Description
+                        📦 Quantity
                       </Text>
                     </HStack>
                     <Input
-                      placeholder="Describe your amazing product..."
-                      value={form.description}
+                      type="number"
+                      placeholder="1"
+                      value={form.quantity}
                       onChange={(e) =>
-                        setForm({ ...form, description: e.target.value })
+                        setForm({ ...form, quantity: e.target.value })
                       }
                       bg="gray.50"
                       border="2px solid"
@@ -338,7 +370,6 @@ const AdminDashboardPage: React.FC = () => {
                 </VStack>
               </Box>
 
-              {/* Action buttons */}
               <Box px={8} pb={8}>
                 <HStack gap={3}>
                   <Button

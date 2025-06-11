@@ -72,8 +72,9 @@ const AdminLoginPage: React.FC = () => {
       );
       sessionStorage.setItem("auth-token", resp.data.token);
       sessionStorage.setItem("username", resp.data.username);
+
       showPopupMsg("Login successful!", "success");
-      setTimeout(() => navigate("/admin/dashboard"), 1000);
+      navigate("/admin/dashboard");
     } catch (err: any) {
       if (
         err.response?.status === 401 &&
