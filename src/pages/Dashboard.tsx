@@ -1,4 +1,4 @@
-// App.tsx
+// Dashboard.tsx
 "use client";
 
 import {
@@ -8,11 +8,10 @@ import {
   Heading,
   Image,
   SimpleGrid,
-  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import NavBar from "./components/app/NavBar";
+import NavBar from "../components/app/navbar";
 
 const products = [
   {
@@ -38,7 +37,7 @@ const products = [
   },
 ];
 
-export default function App() {
+export default function Dashboard() {
   return (
     <Box bg={{ base: "white", _dark: "gray.900" }} minH="100vh">
       <NavBar />
@@ -51,7 +50,7 @@ export default function App() {
         bg="orange.100"
       >
         <Container maxW="container.lg">
-          <VStack spacing={6}>
+          <VStack gap={6}>
             <Heading size="2xl" color="orange.700">
               Welcome to Sweet Crumbs 🍪
             </Heading>
