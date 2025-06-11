@@ -14,9 +14,9 @@ import {
   VStack,
   HStack,
 } from "@chakra-ui/react";
-import { FaStar, FaHeart, FaShoppingCart, FaArrowRight } from "react-icons/fa";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import { ShoppingCart, Heart, ArrowRight, Star } from "lucide-react";
+import Navbar from "../components/app/navbar";
+import Footer from "../components/app/Footer";
 
 const cakes = [
   {
@@ -139,8 +139,6 @@ const Dashboard: React.FC = () => {
                   fontSize="lg"
                   fontWeight="bold"
                   rounded="full"
-                  leftIcon={<Icon as={FaShoppingCart} />}
-                  rightIcon={<Icon as={FaArrowRight} />}
                   _hover={{
                     transform: "translateY(-3px)",
                     boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
@@ -149,7 +147,11 @@ const Dashboard: React.FC = () => {
                   transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                   boxShadow="0 10px 30px rgba(0,0,0,0.2)"
                 >
-                  Browse Our Cakes
+                  <HStack gap={2}>
+                    <Icon as={ShoppingCart} boxSize={5} />
+                    <Text>Browse Our Cakes</Text>
+                    <Icon as={ArrowRight} boxSize={5} />
+                  </HStack>
                 </Button>
 
                 <Button
@@ -164,7 +166,6 @@ const Dashboard: React.FC = () => {
                   fontWeight="bold"
                   rounded="full"
                   borderWidth="2px"
-                  leftIcon={<Icon as={FaHeart} />}
                   _hover={{
                     bg: "whiteAlpha.300",
                     transform: "translateY(-3px)",
@@ -173,7 +174,10 @@ const Dashboard: React.FC = () => {
                   transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                   backdropFilter="blur(10px)"
                 >
-                  Custom Orders
+                  <HStack gap={2}>
+                    <Icon as={Heart} boxSize={5} />
+                    <Text>Custom Orders</Text>
+                  </HStack>
                 </Button>
               </Stack>
             </VStack>
@@ -223,17 +227,20 @@ const Dashboard: React.FC = () => {
                       {cake.price}
                     </Text>
 
-                    <HStack spacing={1}>
+                    <HStack gap={1}>
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Icon
                           key={i}
-                          as={FaStar}
+                          as={Star}
                           color={
                             i < Math.round(cake.rating)
                               ? "yellow.400"
                               : "gray.300"
                           }
                           boxSize={4}
+                          fill={
+                            i < Math.round(cake.rating) ? "yellow.400" : "none"
+                          }
                         />
                       ))}
                       <Text fontSize="sm" color="gray.500">
@@ -242,14 +249,11 @@ const Dashboard: React.FC = () => {
                     </HStack>
                   </HStack>
 
-                  <Button
-                    colorScheme="pink"
-                    variant="solid"
-                    size="md"
-                    w="full"
-                    leftIcon={<Icon as={FaShoppingCart} />}
-                  >
-                    Add to Cart
+                  <Button colorScheme="pink" variant="solid" size="md" w="full">
+                    <HStack justify="center" gap={2}>
+                      <Icon as={ShoppingCart} />
+                      <Text>Add to Cart</Text>
+                    </HStack>
                   </Button>
                 </Box>
               </Box>
