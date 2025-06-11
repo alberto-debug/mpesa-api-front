@@ -115,7 +115,7 @@ const AdminDashboardPage: React.FC = () => {
                 boxShadow="sm"
               >
                 <Text fontWeight="bold">{product.name}</Text>
-                <Text fontSize="sm" color="gray.600" noOfLines={2}>
+                <Text fontSize="sm" color="gray.600" lineClamp={2}>
                   {product.description}
                 </Text>
                 <Text color="green.600" mt={2}>
@@ -146,9 +146,9 @@ const AdminDashboardPage: React.FC = () => {
         <Footer />
       </Flex>
 
-      <Modal open={open} onClose={onClose}>
+      <Modal isOpen={open} onClose={onClose} size="lg" isCentered>
         <ModalOverlay />
-        <ModalContent borderRadius="xl">
+        <ModalContent bg="white" borderRadius="xl" boxShadow="2xl">
           <ModalHeader>
             {editId !== null ? "Edit Product" : "Add Product"}
           </ModalHeader>
