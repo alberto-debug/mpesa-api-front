@@ -18,7 +18,7 @@ import {
   Separator,
   Spinner,
 } from "@chakra-ui/react";
-import { ShoppingCart, Heart, Star, Gift } from "lucide-react";
+import { ShoppingCart, Star, Gift } from "lucide-react";
 import { Global } from "@emotion/react";
 import Footer from "../components/app/Footer";
 import Navbar from "../components/app/navbar";
