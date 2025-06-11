@@ -7,27 +7,42 @@ import {
   IconButton,
   Input,
   Flex,
+  useDisclosure,
 } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+} from "@chakra-ui/modal";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/app/navbar"; // Adjust import path based on your project structure
+import Navbar from "../components/app/navbar";
 import Footer from "../components/app/Footer";
 
-interface AdminLoginProps {}
-
-const AdminLoginPage: React.FC<AdminLoginProps> = () => {
+const AdminLoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
+  const { open, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
+
+  const showErrorModal = (message: string) => {
+    setModalMessage(message);
+    onOpen();
+  };
 
   const handleAdminLogin = async () => {
     let hasError = false;
@@ -47,7 +62,7 @@ const AdminLoginPage: React.FC<AdminLoginProps> = () => {
     }
 
     if (hasError) {
-      alert("Please fill in all fields.");
+      showErrorModal("Please fill in all fields.");
       return;
     }
 
@@ -59,7 +74,6 @@ const AdminLoginPage: React.FC<AdminLoginProps> = () => {
         { email, password },
       );
 
-      alert("Login successful!");
       sessionStorage.setItem("auth-token", response.data.token);
       sessionStorage.setItem("username", response.data.username);
       navigate("/admin/dashboard");
@@ -69,15 +83,15 @@ const AdminLoginPage: React.FC<AdminLoginProps> = () => {
         error.response?.data === "Invalid credentials"
       ) {
         setPasswordError(true);
-        alert("Incorrect password. Please try again.");
+        showErrorModal("Incorrect password. Please try again.");
       } else if (
         error.response?.status === 404 &&
         error.response?.data === "User not found"
       ) {
         setEmailError(true);
-        alert("No account found with this email.");
+        showErrorModal("No account found with this email.");
       } else {
-        alert("Login failed. Please try again later.");
+        showErrorModal("Login failed. Please try again later.");
       }
     } finally {
       setLoading(false);
@@ -172,7 +186,25 @@ const AdminLoginPage: React.FC<AdminLoginProps> = () => {
           </Stack>
         </Box>
       </Flex>
+
       <Footer />
+
+      {/* Modal for error messages */}
+      <Modal isOpen={open} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader color="red.500">Error</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>{modalMessage}</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="pink" onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
