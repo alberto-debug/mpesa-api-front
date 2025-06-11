@@ -1,14 +1,21 @@
-// App.tsx
-"use client";
-
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
+import LoginPage from "./pages/AdminLoginPage";
 
 function App() {
   return (
-    <ChakraProvider value={defaultSystem}>
-      <Dashboard />
-    </ChakraProvider>
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </Router>
   );
 }
 
