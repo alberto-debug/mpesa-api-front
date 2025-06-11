@@ -17,14 +17,7 @@ import {
   HStack,
   Separator,
 } from "@chakra-ui/react";
-import {
-  ShoppingCart,
-  Heart,
-  ArrowRight,
-  Star,
-  Sparkles,
-  Gift,
-} from "lucide-react";
+import { ShoppingCart, Heart, Star, Gift } from "lucide-react";
 import { Global } from "@emotion/react";
 import Footer from "../components/app/Footer";
 import Navbar from "../components/app/navbar";
@@ -93,188 +86,83 @@ const Dashboard: React.FC = () => {
         <Box flex="1">
           {/* Hero Section */}
           <Box
-            bgGradient="linear(135deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #96CEB4 75%, #FFEAA7 100%)"
-            py={{ base: 24, md: 40 }}
+            bg="gray.200"
+            bgSize="cover"
+            py={{ base: 16, md: 24 }}
             px={{ base: 4, md: 8 }}
             textAlign="center"
             position="relative"
             overflow="hidden"
           >
-            {/* Animated Background Elements */}
-            <Box
-              position="absolute"
-              top="10%"
-              left="10%"
-              w="100px"
-              h="100px"
-              bg="whiteAlpha.200"
-              rounded="full"
-              style={{ animation: "float 6s ease-in-out infinite" }}
-            />
-            <Box
-              position="absolute"
-              top="60%"
-              right="15%"
-              w="80px"
-              h="80px"
-              bg="whiteAlpha.300"
-              rounded="full"
-              style={{ animation: "float 4s ease-in-out infinite reverse" }}
-            />
-            <Box
-              position="absolute"
-              bottom="20%"
-              left="20%"
-              w="60px"
-              h="60px"
-              bg="whiteAlpha.200"
-              rounded="full"
-              style={{ animation: "float 5s ease-in-out infinite" }}
-            />
-
-            {/* Dot Overlay */}
-            <Box
-              position="absolute"
-              top="0"
-              left="0"
-              w="100%"
-              h="100%"
-              bgGradient="radial(circle, whiteAlpha.200 2px, transparent 2px)"
-              backgroundSize="60px 60px"
-              opacity={0.4}
-            />
-
-            <Container maxW="6xl" position="relative" zIndex={1}>
-              <VStack gap={10}>
-                <Badge
-                  bg="whiteAlpha.300"
-                  color="gray.800"
-                  px={8}
-                  py={4}
-                  rounded="full"
-                  fontSize="md"
-                  fontWeight="bold"
-                  backdropFilter="blur(20px)"
-                  border="3px solid"
-                  borderColor="whiteAlpha.500"
-                  textShadow="0 2px 4px rgba(255,255,255,0.5)"
-                  boxShadow="0 8px 32px rgba(0,0,0,0.1)"
+            <Container maxW="4xl" position="relative" zIndex={1}>
+              <VStack gap={6}>
+                <Heading
+                  fontSize={{ base: "4xl", md: "6xl" }}
+                  fontWeight="900"
+                  color="black"
+                  textShadow="0 6px 20px rgba(0,0,0,0.2)"
+                  lineHeight="1"
                 >
-                  <HStack gap={2}>
-                    <Icon as={Sparkles} boxSize={4} />
-                    <Text>Handcrafted Since 2020</Text>
-                    <Icon as={Sparkles} boxSize={4} />
-                  </HStack>
-                </Badge>
-
-                <VStack gap={8}>
-                  <Heading
-                    fontSize={{ base: "5xl", md: "7xl", lg: "8xl" }}
-                    fontWeight="900"
-                    color="white"
-                    lineHeight="0.85"
-                    textShadow="0 8px 32px rgba(0,0,0,0.3)"
-                    letterSpacing="-0.02em"
-                  >
-                    Welcome to
-                    <br />
-                    <Text
-                      as="span"
-                      bgGradient="linear(45deg, #FF6B6B, #4ECDC4, #45B7D1)"
-                      bgClip="text"
-                      textShadow="none"
-                    >
-                      CakeStore
-                    </Text>
-                  </Heading>
-
-                  <VStack gap={4}>
-                    <Text
-                      fontSize="8xl"
-                      role="img"
-                      aria-label="cake"
-                      filter="drop-shadow(0 8px 16px rgba(0,0,0,0.2))"
-                      style={{ animation: "bounce 2s ease-in-out infinite" }}
-                    >
-                      🍰
-                    </Text>
-                    <HStack gap={4}>
-                      <Text fontSize="3xl" role="img" aria-label="cupcake">
-                        🧁
-                      </Text>
-                      <Text
-                        fontSize="3xl"
-                        role="img"
-                        aria-label="birthday cake"
-                      >
-                        🎂
-                      </Text>
-                      <Text fontSize="3xl" role="img" aria-label="donut">
-                        🍩
-                      </Text>
-                    </HStack>
-                  </VStack>
-                </VStack>
+                  Welcome to{" "}
+                  <Text as="span" bg="pink.600" bgClip="text">
+                    CakeStore
+                  </Text>
+                </Heading>
 
                 <Text
-                  fontSize={{ base: "xl", md: "2xl" }}
+                  fontSize={{ base: "md", md: "lg" }}
                   color="white"
-                  maxW="3xl"
-                  lineHeight="tall"
+                  maxW="2xl"
                   fontWeight="medium"
-                  textShadow="0 4px 8px rgba(0,0,0,0.2)"
+                  textShadow="0 2px 6px rgba(0,0,0,0.15)"
                 >
-                  Discover delicious homemade cakes crafted with love and the
-                  finest ingredients for every celebration 🎉
+                  Delicious handcrafted cakes made with love and the finest
+                  ingredients 🎂
                 </Text>
 
-                <Stack direction={{ base: "column", sm: "row" }} gap={6} pt={6}>
+                <Stack direction={{ base: "column", sm: "row" }} gap={4} pt={4}>
                   <Button
                     bg="white"
                     color="gray.800"
                     size="lg"
-                    px={12}
-                    py={8}
-                    fontSize="xl"
+                    px={8}
+                    py={6}
+                    fontSize="md"
                     fontWeight="bold"
                     rounded="full"
                     _hover={{
-                      transform: "translateY(-4px) scale(1.05)",
-                      boxShadow: "0 25px 50px rgba(0,0,0,0.25)",
+                      transform: "translateY(-2px) scale(1.03)",
+                      boxShadow: "0 15px 30px rgba(0,0,0,0.2)",
                       bg: "gray.50",
                     }}
-                    transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
-                    boxShadow="0 15px 35px rgba(0,0,0,0.15)"
+                    transition="all 0.3s ease"
                   >
-                    <HStack gap={3}>
-                      <Icon as={ShoppingCart} boxSize={6} />
-                      <Text>Browse Our Cakes</Text>
-                      <Icon as={ArrowRight} boxSize={6} />
+                    <HStack gap={2}>
+                      <Icon as={ShoppingCart} boxSize={5} />
+                      <Text>Browse Cakes</Text>
                     </HStack>
                   </Button>
 
                   <Button
                     variant="outline"
-                    borderColor="white"
+                    borderColor="pink.500"
                     color="white"
                     bg="whiteAlpha.200"
                     size="lg"
-                    px={12}
-                    py={8}
-                    fontSize="xl"
+                    px={8}
+                    py={6}
+                    fontSize="md"
                     fontWeight="bold"
                     rounded="full"
-                    borderWidth="3px"
                     _hover={{
                       bg: "whiteAlpha.300",
-                      transform: "translateY(-4px) scale(1.05)",
-                      boxShadow: "0 25px 50px rgba(255,255,255,0.2)",
+                      transform: "translateY(-2px) scale(1.03)",
+                      boxShadow: "0 20px 40px rgba(255,255,255,0.2)",
                     }}
-                    transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
-                    backdropFilter="blur(20px)"
+                    transition="all 0.3s ease"
                   >
-                    <HStack gap={3}>
-                      <Icon as={Gift} boxSize={6} />
+                    <HStack gap={2}>
+                      <Icon as={Gift} boxSize={5} />
                       <Text>Custom Orders</Text>
                     </HStack>
                   </Button>

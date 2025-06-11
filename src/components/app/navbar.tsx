@@ -56,8 +56,9 @@ const Navbar = () => {
               display={{ base: "flex", md: "none" }}
               onClick={toggleMenu}
               variant="ghost"
-              _icon={open ? <X /> : <Menu />}
-            />
+            >
+              {open ? <X /> : <Menu />}
+            </IconButton>
           </HStack>
 
           {/* Mobile Nav Items */}
