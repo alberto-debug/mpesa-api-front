@@ -7,7 +7,6 @@ import {
   IconButton,
   Input,
   Flex,
-  useToken,
 } from "@chakra-ui/react";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { useState } from "react";
@@ -23,15 +22,21 @@ const AdminLoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [popupMsg, setPopupMsg] = useState("");
+  const [popup, setPopup] = useState<{
+    message: string;
+    status: "error" | "success";
+  }>({ message: "", status: "error" });
   const [showPopup, setShowPopup] = useState(false);
 
   const navigate = useNavigate();
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
-  const showPopupMsg = (msg: string) => {
-    setPopupMsg(msg);
+  const showPopupMsg = (
+    message: string,
+    status: "error" | "success" = "error",
+  ) => {
+    setPopup({ message, status });
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 3500);
   };
@@ -54,7 +59,7 @@ const AdminLoginPage: React.FC = () => {
     }
 
     if (hasError) {
-      showPopupMsg("Please fill in all fields.");
+      showPopupMsg("Please fill in all fields.", "error");
       return;
     }
 
@@ -67,22 +72,23 @@ const AdminLoginPage: React.FC = () => {
       );
       sessionStorage.setItem("auth-token", resp.data.token);
       sessionStorage.setItem("username", resp.data.username);
-      navigate("/admin/dashboard");
+      showPopupMsg("Login successful!", "success");
+      setTimeout(() => navigate("/admin/dashboard"), 1000);
     } catch (err: any) {
       if (
         err.response?.status === 401 &&
         err.response.data === "Invalid credentials"
       ) {
         setPasswordError(true);
-        showPopupMsg("Incorrect password.");
+        showPopupMsg("Incorrect password.", "error");
       } else if (
         err.response?.status === 404 &&
         err.response.data === "User not found"
       ) {
         setEmailError(true);
-        showPopupMsg("User not found.");
+        showPopupMsg("User not found.", "error");
       } else {
-        showPopupMsg("Login failed. Try again later.");
+        showPopupMsg("Login failed. Try again later.", "error");
       }
     } finally {
       setLoading(false);
@@ -127,11 +133,6 @@ const AdminLoginPage: React.FC = () => {
                   borderColor: emailError ? "red.500" : "pink.500",
                 }}
               />
-              {emailError && (
-                <Text fontSize="xs" color="red.500">
-                  Email is required.
-                </Text>
-              )}
             </Stack>
 
             <Stack gap={2}>
@@ -148,6 +149,7 @@ const AdminLoginPage: React.FC = () => {
                     borderColor: passwordError ? "red.500" : "pink.500",
                   }}
                 />
+
                 <IconButton
                   aria-label="Toggle password visibility"
                   variant="ghost"
@@ -161,11 +163,6 @@ const AdminLoginPage: React.FC = () => {
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </IconButton>
               </Box>
-              {passwordError && (
-                <Text fontSize="xs" color="red.500">
-                  Password is required.
-                </Text>
-              )}
             </Stack>
 
             <Button
@@ -189,14 +186,14 @@ const AdminLoginPage: React.FC = () => {
 
       <Footer />
 
-      {/* Custom bottom popup */}
+      {/* Popup message */}
       {showPopup && (
         <Box
           position="fixed"
           bottom="4rem"
           left="50%"
           transform="translateX(-50%)"
-          bg="gray.800"
+          bg={popup.status === "error" ? "red.500" : "green.500"}
           px={6}
           py={4}
           borderRadius="lg"
@@ -207,7 +204,7 @@ const AdminLoginPage: React.FC = () => {
           textAlign="center"
         >
           <Text color="white" fontWeight="medium">
-            {popupMsg}
+            {popup.message}
           </Text>
         </Box>
       )}
