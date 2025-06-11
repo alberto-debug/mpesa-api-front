@@ -7,19 +7,9 @@ import {
   IconButton,
   Input,
   Flex,
-  useDisclosure,
 } from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-} from "@chakra-ui/modal";
 import { Eye, EyeOff, LogIn } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/app/navbar";
@@ -32,16 +22,17 @@ const AdminLoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [popupMsg, setPopupMsg] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
-  const { open, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
-  const showErrorModal = (message: string) => {
-    setModalMessage(message);
-    onOpen();
+  const showPopupMsg = (msg: string) => {
+    setPopupMsg(msg);
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3500);
   };
 
   const handleAdminLogin = async () => {
@@ -62,36 +53,35 @@ const AdminLoginPage: React.FC = () => {
     }
 
     if (hasError) {
-      showErrorModal("Please fill in all fields.");
+      showPopupMsg("Please fill in all fields.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const response = await axios.post<{ token: string; username: string }>(
+      const resp = await axios.post<{ token: string; username: string }>(
         "http://localhost:8080/admin/login",
         { email, password },
       );
-
-      sessionStorage.setItem("auth-token", response.data.token);
-      sessionStorage.setItem("username", response.data.username);
+      sessionStorage.setItem("auth-token", resp.data.token);
+      sessionStorage.setItem("username", resp.data.username);
       navigate("/admin/dashboard");
-    } catch (error: any) {
+    } catch (err: any) {
       if (
-        error.response?.status === 401 &&
-        error.response?.data === "Invalid credentials"
+        err.response?.status === 401 &&
+        err.response.data === "Invalid credentials"
       ) {
         setPasswordError(true);
-        showErrorModal("Incorrect password. Please try again.");
+        showPopupMsg("Incorrect password.");
       } else if (
-        error.response?.status === 404 &&
-        error.response?.data === "User not found"
+        err.response?.status === 404 &&
+        err.response.data === "User not found"
       ) {
         setEmailError(true);
-        showErrorModal("No account found with this email.");
+        showPopupMsg("User not found.");
       } else {
-        showErrorModal("Login failed. Please try again later.");
+        showPopupMsg("Login failed. Try again later.");
       }
     } finally {
       setLoading(false);
@@ -101,7 +91,6 @@ const AdminLoginPage: React.FC = () => {
   return (
     <>
       <Navbar />
-
       <Flex
         minH="100vh"
         align="center"
@@ -153,6 +142,7 @@ const AdminLoginPage: React.FC = () => {
                     borderColor: passwordError ? "red.500" : "pink.500",
                   }}
                 />
+
                 <IconButton
                   aria-label="Toggle password visibility"
                   variant="ghost"
@@ -162,10 +152,9 @@ const AdminLoginPage: React.FC = () => {
                   right="0.5rem"
                   transform="translateY(-50%)"
                   onClick={toggleShowPassword}
-                  _icon={{
-                    boxSize: 4,
-                  }}
-                />
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </IconButton>
               </Box>
             </Stack>
 
@@ -182,7 +171,7 @@ const AdminLoginPage: React.FC = () => {
             </Button>
 
             <Text textAlign="center" fontSize="sm" color="gray.600">
-              Don&apos;t have an account? <u>Sign up</u>
+              Don’t have an account? <u>Sign up</u>
             </Text>
           </Stack>
         </Box>
@@ -190,22 +179,27 @@ const AdminLoginPage: React.FC = () => {
 
       <Footer />
 
-      {/* Error Modal */}
-      <Modal isOpen={open} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent borderRadius="xl">
-          <ModalHeader color="red.500">Login Error</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text>{modalMessage}</Text>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="pink" onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {/* Custom centered popup */}
+      {showPopup && (
+        <Box
+          position="fixed"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          bg="gray.800"
+          px={6}
+          py={4}
+          borderRadius="lg"
+          boxShadow="xl"
+          zIndex={9999}
+          minW="xs"
+          textAlign="center"
+        >
+          <Text color="white" fontWeight="medium">
+            {popupMsg}
+          </Text>
+        </Box>
+      )}
     </>
   );
 };
