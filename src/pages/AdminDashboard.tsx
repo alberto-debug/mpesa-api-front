@@ -7,7 +7,6 @@ import {
   VStack,
   HStack,
   Button,
-  Stack,
   Input,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -15,9 +14,6 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   ModalCloseButton,
 } from "@chakra-ui/modal";
 
@@ -224,7 +220,7 @@ const AdminDashboardPage: React.FC = () => {
                   borderRadius="full"
                 />
 
-                <VStack spacing={1}>
+                <VStack gap={1}>
                   <Text fontSize="2xl" role="img" aria-label="sparkles">
                     ✨
                   </Text>
@@ -245,7 +241,7 @@ const AdminDashboardPage: React.FC = () => {
 
               {/* Form section */}
               <Box p={8}>
-                <VStack spacing={6}>
+                <VStack gap={6}>
                   <Box w="full">
                     <HStack mb={2}>
                       <Text
@@ -344,7 +340,7 @@ const AdminDashboardPage: React.FC = () => {
 
               {/* Action buttons */}
               <Box px={8} pb={8}>
-                <HStack spacing={3}>
+                <HStack gap={3}>
                   <Button
                     onClick={onClose}
                     flex={1}
