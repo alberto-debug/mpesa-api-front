@@ -170,10 +170,9 @@ const AdminLoginPage: React.FC<AdminLoginProps> = () => {
               Don&apos;t have an account? <u>Sign up</u>
             </Text>
           </Stack>
-
-          <Footer />
         </Box>
       </Flex>
+      <Footer />
     </>
   );
 };

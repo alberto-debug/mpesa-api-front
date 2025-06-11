@@ -6,6 +6,7 @@ import {
   Icon,
   Link,
   HStack,
+  VStack,
   Separator,
 } from "@chakra-ui/react";
 import {
@@ -20,17 +21,22 @@ const Footer: React.FC = () => {
     <Box as="footer" bg="gray.200" color="gray.700" mt="auto" py={10} px={6}>
       <Flex
         direction={{ base: "column", md: "row" }}
-        align="center"
+        align={{ base: "flex-start", md: "center" }}
         justify="space-between"
         gap={6}
         maxW="6xl"
         mx="auto"
+        w="full"
       >
         <Text fontWeight="bold" fontSize="lg">
           🍰 CakeStore
         </Text>
 
-        <HStack gap={6}>
+        <HStack
+          flexWrap="wrap"
+          justify={{ base: "flex-start", md: "flex-end" }}
+          gap={4}
+        >
           <Link href="#" aria-label="Facebook" _hover={{ color: "pink.500" }}>
             <Icon as={FacebookIcon} boxSize={5} />
           </Link>
@@ -50,19 +56,24 @@ const Footer: React.FC = () => {
         </HStack>
       </Flex>
 
-      {/* Use Separator instead of Divider */}
-      <Separator my={6} borderColor="gray.200" />
+      <Separator my={6} borderColor="gray.300" />
 
-      <Flex direction="column" align="center" gap={2}>
+      <VStack gap={2} textAlign="center">
         <Text fontSize="sm" color="gray.500">
           &copy; {new Date().getFullYear()} CakeStore. All rights reserved.
         </Text>
-        <HStack gap={4} fontSize="sm">
+        <HStack
+          flexWrap="wrap"
+          justify="center"
+          gap={4}
+          fontSize="sm"
+          color="gray.600"
+        >
           <Link href="#">Privacy Policy</Link>
           <Link href="#">Terms of Service</Link>
           <Link href="#">Contact</Link>
         </HStack>
-      </Flex>
+      </VStack>
     </Box>
   );
 };
