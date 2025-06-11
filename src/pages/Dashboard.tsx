@@ -1,122 +1,266 @@
-// Dashboard.tsx
-"use client";
-
+import type React from "react";
 import {
   Box,
-  Button,
-  Container,
   Heading,
-  Image,
-  SimpleGrid,
   Text,
+  Button,
+  Image,
+  Stack,
+  SimpleGrid,
+  Flex,
+  Container,
+  Badge,
+  Icon,
   VStack,
+  HStack,
 } from "@chakra-ui/react";
-import NavBar from "../components/app/navbar";
+import { FaStar, FaHeart, FaShoppingCart, FaArrowRight } from "react-icons/fa";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-const products = [
+const cakes = [
   {
-    id: 1,
-    name: "Chocolate Chip Cookie",
-    description: "Classic and gooey with rich chocolate chips.",
-    image: "/cookies/choco-chip.jpg",
-    price: "$3.50",
+    name: "Chocolate Heaven",
+    image:
+      "https://images.unsplash.com/photo-1612197593458-c0a9e5c507e2?auto=format&fit=crop&w=800&q=80",
+    price: "$28.99",
+    rating: 4.8,
+    reviews: 124,
+    badge: "Best Seller",
+    description: "Rich, decadent chocolate layers with premium cocoa",
   },
   {
-    id: 2,
-    name: "Peanut Butter Cookie",
-    description: "Nutty and soft with a sweet crunch.",
-    image: "/cookies/peanut-butter.jpg",
-    price: "$3.00",
+    name: "Vanilla Dream",
+    image:
+      "https://images.unsplash.com/photo-1606312616077-d6f1f363e25e?auto=format&fit=crop&w=800&q=80",
+    price: "$24.99",
+    rating: 4.6,
+    reviews: 89,
+    badge: "Popular",
+    description: "Classic vanilla sponge with silky buttercream",
   },
   {
-    id: 3,
-    name: "Oatmeal Raisin Cookie",
-    description: "Chewy, hearty, and naturally sweet.",
-    image: "/cookies/oatmeal.jpg",
-    price: "$3.25",
+    name: "Strawberry Bliss",
+    image:
+      "https://images.unsplash.com/photo-1604908177742-f96cde062bfa?auto=format&fit=crop&w=800&q=80",
+    price: "$32.99",
+    rating: 4.9,
+    reviews: 156,
+    badge: "New",
+    description: "Fresh strawberry cake with cream cheese frosting",
   },
 ];
 
-export default function Dashboard() {
+const Dashboard: React.FC = () => {
   return (
-    <Box bg={{ base: "white", _dark: "gray.900" }} minH="100vh">
-      <NavBar />
+    <Flex direction="column" minH="100vh" bg="white">
+      <Navbar />
 
-      {/* Hero Section */}
-      <Box
-        as="section"
-        py={{ base: 10, md: 20 }}
-        textAlign="center"
-        bg="orange.100"
-      >
-        <Container maxW="container.lg">
-          <VStack gap={6}>
-            <Heading size="2xl" color="orange.700">
-              Welcome to Sweet Crumbs 🍪
-            </Heading>
-            <Text fontSize="lg" color="gray.700">
-              Freshly baked cookies, delivered with love.
-            </Text>
-            <Button size="lg" colorScheme="orange">
-              Order Now
-            </Button>
-            <Image
-              src="/cookies/hero-cookie.png"
-              alt="hero cookie"
-              boxSize="300px"
-              objectFit="contain"
-              mt={4}
-            />
-          </VStack>
-        </Container>
-      </Box>
+      <Box flex="1">
+        {/* Hero Section */}
+        <Box
+          bgGradient="linear(135deg, pink.400 0%, purple.500 50%, orange.400 100%)"
+          py={{ base: 20, md: 32 }}
+          px={{ base: 4, md: 8 }}
+          textAlign="center"
+          position="relative"
+          overflow="hidden"
+        >
+          <Box
+            position="absolute"
+            top="-50%"
+            left="-50%"
+            w="200%"
+            h="200%"
+            bgGradient="radial(circle, whiteAlpha.100 1px, transparent 1px)"
+            backgroundSize="50px 50px"
+            opacity={0.3}
+          />
 
-      {/* Products Section */}
-      <Box as="section" py={10}>
-        <Container maxW="container.lg">
-          <Heading
-            size="lg"
-            mb={6}
-            color={{ base: "orange.600", _dark: "orange.300" }}
-          >
-            Our Best Sellers
+          <Container maxW="5xl" position="relative" zIndex={1}>
+            <VStack gap={8}>
+              <Badge
+                bg="whiteAlpha.300"
+                color="black"
+                px={6}
+                py={3}
+                rounded="full"
+                fontSize="sm"
+                fontWeight="bold"
+                backdropFilter="blur(10px)"
+                border="2px solid"
+                borderColor="whiteAlpha.400"
+                textShadow="0 1px 2px rgba(255,255,255,0.3)"
+              >
+                ✨ Handcrafted Since 2020
+              </Badge>
+
+              <VStack gap={6}>
+                <Heading
+                  fontSize={{ base: "4xl", md: "6xl", lg: "7xl" }}
+                  fontWeight="900"
+                  color="black"
+                  lineHeight="0.9"
+                  textShadow="0 4px 20px rgba(255,255,255,0.5)"
+                >
+                  Welcome to
+                  <br />
+                  CakeStore
+                </Heading>
+                <Text
+                  fontSize="6xl"
+                  role="img"
+                  aria-label="cake"
+                  filter="drop-shadow(0 4px 8px rgba(0,0,0,0.3))"
+                >
+                  🍰
+                </Text>
+              </VStack>
+
+              <Text
+                fontSize={{ base: "lg", md: "xl" }}
+                color="black"
+                maxW="2xl"
+                lineHeight="tall"
+                fontWeight="medium"
+                textShadow="0 2px 4px rgba(255,255,255,0.3)"
+              >
+                Discover delicious homemade cakes crafted with love and the
+                finest ingredients for every celebration
+              </Text>
+
+              <Stack direction={{ base: "column", sm: "row" }} gap={4} pt={4}>
+                <Button
+                  bg="black"
+                  color="white"
+                  size="lg"
+                  px={10}
+                  py={7}
+                  fontSize="lg"
+                  fontWeight="bold"
+                  rounded="full"
+                  leftIcon={<Icon as={FaShoppingCart} />}
+                  rightIcon={<Icon as={FaArrowRight} />}
+                  _hover={{
+                    transform: "translateY(-3px)",
+                    boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+                    bg: "gray.800",
+                  }}
+                  transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                  boxShadow="0 10px 30px rgba(0,0,0,0.2)"
+                >
+                  Browse Our Cakes
+                </Button>
+
+                <Button
+                  variant="outline"
+                  borderColor="black"
+                  color="black"
+                  bg="whiteAlpha.200"
+                  size="lg"
+                  px={10}
+                  py={7}
+                  fontSize="lg"
+                  fontWeight="bold"
+                  rounded="full"
+                  borderWidth="2px"
+                  leftIcon={<Icon as={FaHeart} />}
+                  _hover={{
+                    bg: "whiteAlpha.300",
+                    transform: "translateY(-3px)",
+                    boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+                  }}
+                  transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                  backdropFilter="blur(10px)"
+                >
+                  Custom Orders
+                </Button>
+              </Stack>
+            </VStack>
+          </Container>
+        </Box>
+
+        {/* Product Grid */}
+        <Container maxW="6xl" py={16} px={4}>
+          <Heading fontSize="3xl" mb={10} fontWeight="bold" textAlign="center">
+            Our Signature Cakes
           </Heading>
-          <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} gap={6}>
-            {products.map((product) => (
+
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={10}>
+            {cakes.map((cake, index) => (
               <Box
-                key={product.id}
-                bg={{ base: "gray.50", _dark: "gray.800" }}
-                shadow="md"
+                key={index}
+                borderWidth="1px"
+                borderColor="gray.200"
                 rounded="lg"
                 overflow="hidden"
-                borderWidth="1px"
+                boxShadow="md"
+                _hover={{ boxShadow: "xl", transform: "translateY(-5px)" }}
+                transition="0.3s"
               >
                 <Image
-                  src={product.image}
-                  alt={product.name}
-                  h="200px"
-                  w="100%"
+                  src={cake.image}
+                  alt={cake.name}
+                  w="full"
+                  h="250px"
                   objectFit="cover"
                 />
-                <Box p={4}>
-                  <Heading size="md" mb={2}>
-                    {product.name}
-                  </Heading>
-                  <Text
-                    fontSize="sm"
-                    color={{ base: "gray.600", _dark: "gray.300" }}
+
+                <Box p={6}>
+                  <HStack justify="space-between" mb={2}>
+                    <Heading fontSize="xl" fontWeight="bold">
+                      {cake.name}
+                    </Heading>
+                    <Badge colorScheme="pink">{cake.badge}</Badge>
+                  </HStack>
+
+                  <Text color="gray.600" fontSize="sm" mb={4}>
+                    {cake.description}
+                  </Text>
+
+                  <HStack justify="space-between" mb={4}>
+                    <Text fontWeight="bold" fontSize="lg">
+                      {cake.price}
+                    </Text>
+
+                    <HStack spacing={1}>
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Icon
+                          key={i}
+                          as={FaStar}
+                          color={
+                            i < Math.round(cake.rating)
+                              ? "yellow.400"
+                              : "gray.300"
+                          }
+                          boxSize={4}
+                        />
+                      ))}
+                      <Text fontSize="sm" color="gray.500">
+                        ({cake.reviews})
+                      </Text>
+                    </HStack>
+                  </HStack>
+
+                  <Button
+                    colorScheme="pink"
+                    variant="solid"
+                    size="md"
+                    w="full"
+                    leftIcon={<Icon as={FaShoppingCart} />}
                   >
-                    {product.description}
-                  </Text>
-                  <Text fontWeight="bold" mt={2} color="orange.500">
-                    {product.price}
-                  </Text>
+                    Add to Cart
+                  </Button>
                 </Box>
               </Box>
             ))}
           </SimpleGrid>
         </Container>
       </Box>
-    </Box>
+
+      <Footer />
+    </Flex>
   );
-}
+};
+
+export default Dashboard;
