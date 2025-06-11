@@ -17,7 +17,7 @@ import {
 
 const Footer: React.FC = () => {
   return (
-    <Box as="footer" bg="gray.50" color="gray.700" mt="auto" py={10} px={6}>
+    <Box as="footer" bg="gray.200" color="gray.700" mt="auto" py={10} px={6}>
       <Flex
         direction={{ base: "column", md: "row" }}
         align="center"
