@@ -1,4 +1,3 @@
-
 import {
   Box,
   Button,
@@ -57,7 +56,7 @@ const Navbar = () => {
               display={{ base: "flex", md: "none" }}
               onClick={toggleMenu}
               variant="ghost"
-              _icon={{ as: open ? X : Menu }}
+              _icon={open ? <X /> : <Menu />}
             />
           </HStack>
 
