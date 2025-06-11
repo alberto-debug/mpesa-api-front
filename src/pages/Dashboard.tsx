@@ -1,3 +1,5 @@
+"use client";
+
 import type React from "react";
 import {
   Box,
@@ -13,10 +15,45 @@ import {
   Icon,
   VStack,
   HStack,
+  Divider,
 } from "@chakra-ui/react";
-import { ShoppingCart, Heart, ArrowRight, Star } from "lucide-react";
-import Navbar from "../components/app/navbar";
-import Footer from "../components/app/Footer";
+import {
+  ShoppingCart,
+  Heart,
+  ArrowRight,
+  Star,
+  Sparkles,
+  Gift,
+} from "lucide-react";
+
+// Mock components - replace with your actual components
+const Navbar = () => (
+  <Box bg="white" shadow="sm" px={4} py={3}>
+    <Container maxW="6xl">
+      <HStack justify="space-between">
+        <Heading size="md" color="purple.600">
+          CakeStore
+        </Heading>
+        <HStack gap={6}>
+          <Text fontWeight="medium">Home</Text>
+          <Text fontWeight="medium">Cakes</Text>
+          <Text fontWeight="medium">About</Text>
+          <Button colorScheme="purple" size="sm">
+            Cart
+          </Button>
+        </HStack>
+      </HStack>
+    </Container>
+  </Box>
+);
+
+const Footer = () => (
+  <Box bg="gray.900" color="white" py={8}>
+    <Container maxW="6xl">
+      <Text textAlign="center">© 2024 CakeStore. Made with ❤️</Text>
+    </Container>
+  </Box>
+);
 
 const cakes = [
   {
@@ -27,6 +64,7 @@ const cakes = [
     rating: 4.8,
     reviews: 124,
     badge: "Best Seller",
+    badgeColor: "red",
     description: "Rich, decadent chocolate layers with premium cocoa",
   },
   {
@@ -37,6 +75,7 @@ const cakes = [
     rating: 4.6,
     reviews: 89,
     badge: "Popular",
+    badgeColor: "orange",
     description: "Classic vanilla sponge with silky buttercream",
   },
   {
@@ -47,135 +86,224 @@ const cakes = [
     rating: 4.9,
     reviews: 156,
     badge: "New",
+    badgeColor: "green",
     description: "Fresh strawberry cake with cream cheese frosting",
   },
 ];
 
 const Dashboard: React.FC = () => {
   return (
-    <Flex direction="column" minH="100vh" bg="white">
+    <Flex direction="column" minH="100vh" bg="gray.50">
       <Navbar />
 
       <Box flex="1">
-        {/* Hero Section */}
+        {/* Enhanced Hero Section */}
         <Box
-          bgGradient="linear(135deg, pink.400 0%, purple.500 50%, orange.400 100%)"
-          py={{ base: 20, md: 32 }}
+          bgGradient="linear(135deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #96CEB4 75%, #FFEAA7 100%)"
+          py={{ base: 24, md: 40 }}
           px={{ base: 4, md: 8 }}
           textAlign="center"
           position="relative"
           overflow="hidden"
         >
+          {/* Animated Background Elements */}
           <Box
             position="absolute"
-            top="-50%"
-            left="-50%"
-            w="200%"
-            h="200%"
-            bgGradient="radial(circle, whiteAlpha.100 1px, transparent 1px)"
-            backgroundSize="50px 50px"
-            opacity={0.3}
+            top="10%"
+            left="10%"
+            w="100px"
+            h="100px"
+            bg="whiteAlpha.200"
+            rounded="full"
+            sx={{
+              animation: "float 6s ease-in-out infinite",
+              "@keyframes float": {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+            }}
+          />
+          <Box
+            position="absolute"
+            top="60%"
+            right="15%"
+            w="80px"
+            h="80px"
+            bg="whiteAlpha.300"
+            rounded="full"
+            sx={{
+              animation: "float 4s ease-in-out infinite reverse",
+              "@keyframes float": {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+            }}
+          />
+          <Box
+            position="absolute"
+            bottom="20%"
+            left="20%"
+            w="60px"
+            h="60px"
+            bg="whiteAlpha.200"
+            rounded="full"
+            sx={{
+              animation: "float 5s ease-in-out infinite",
+              "@keyframes float": {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+            }}
           />
 
-          <Container maxW="5xl" position="relative" zIndex={1}>
-            <VStack gap={8}>
+          {/* Dot Pattern Overlay */}
+          <Box
+            position="absolute"
+            top="0"
+            left="0"
+            w="100%"
+            h="100%"
+            bgGradient="radial(circle, whiteAlpha.200 2px, transparent 2px)"
+            backgroundSize="60px 60px"
+            opacity={0.4}
+          />
+
+          <Container maxW="6xl" position="relative" zIndex={1}>
+            <VStack gap={10}>
               <Badge
                 bg="whiteAlpha.300"
-                color="black"
-                px={6}
-                py={3}
+                color="gray.800"
+                px={8}
+                py={4}
                 rounded="full"
-                fontSize="sm"
+                fontSize="md"
                 fontWeight="bold"
-                backdropFilter="blur(10px)"
-                border="2px solid"
-                borderColor="whiteAlpha.400"
-                textShadow="0 1px 2px rgba(255,255,255,0.3)"
+                backdropFilter="blur(20px)"
+                border="3px solid"
+                borderColor="whiteAlpha.500"
+                textShadow="0 2px 4px rgba(255,255,255,0.5)"
+                boxShadow="0 8px 32px rgba(0,0,0,0.1)"
               >
-                ✨ Handcrafted Since 2020
+                <HStack gap={2}>
+                  <Icon as={Sparkles} boxSize={4} />
+                  <Text>Handcrafted Since 2020</Text>
+                  <Icon as={Sparkles} boxSize={4} />
+                </HStack>
               </Badge>
 
-              <VStack gap={6}>
+              <VStack gap={8}>
                 <Heading
-                  fontSize={{ base: "4xl", md: "6xl", lg: "7xl" }}
+                  fontSize={{ base: "5xl", md: "7xl", lg: "8xl" }}
                   fontWeight="900"
-                  color="black"
-                  lineHeight="0.9"
-                  textShadow="0 4px 20px rgba(255,255,255,0.5)"
+                  color="white"
+                  lineHeight="0.85"
+                  textShadow="0 8px 32px rgba(0,0,0,0.3)"
+                  letterSpacing="-0.02em"
                 >
                   Welcome to
                   <br />
-                  CakeStore
+                  <Text
+                    as="span"
+                    bgGradient="linear(45deg, #FF6B6B, #4ECDC4, #45B7D1)"
+                    bgClip="text"
+                    textShadow="none"
+                  >
+                    CakeStore
+                  </Text>
                 </Heading>
-                <Text
-                  fontSize="6xl"
-                  role="img"
-                  aria-label="cake"
-                  filter="drop-shadow(0 4px 8px rgba(0,0,0,0.3))"
-                >
-                  🍰
-                </Text>
+
+                <VStack gap={4}>
+                  <Text
+                    fontSize="8xl"
+                    role="img"
+                    aria-label="cake"
+                    filter="drop-shadow(0 8px 16px rgba(0,0,0,0.2))"
+                    sx={{
+                      animation: "bounce 2s ease-in-out infinite",
+                      "@keyframes bounce": {
+                        "0%, 20%, 50%, 80%, 100%": {
+                          transform: "translateY(0)",
+                        },
+                        "40%": { transform: "translateY(-10px)" },
+                        "60%": { transform: "translateY(-5px)" },
+                      },
+                    }}
+                  >
+                    🍰
+                  </Text>
+                  <HStack gap={4}>
+                    <Text fontSize="3xl" role="img" aria-label="cupcake">
+                      🧁
+                    </Text>
+                    <Text fontSize="3xl" role="img" aria-label="birthday cake">
+                      🎂
+                    </Text>
+                    <Text fontSize="3xl" role="img" aria-label="donut">
+                      🍩
+                    </Text>
+                  </HStack>
+                </VStack>
               </VStack>
 
               <Text
-                fontSize={{ base: "lg", md: "xl" }}
-                color="black"
-                maxW="2xl"
+                fontSize={{ base: "xl", md: "2xl" }}
+                color="white"
+                maxW="3xl"
                 lineHeight="tall"
                 fontWeight="medium"
-                textShadow="0 2px 4px rgba(255,255,255,0.3)"
+                textShadow="0 4px 8px rgba(0,0,0,0.2)"
               >
                 Discover delicious homemade cakes crafted with love and the
-                finest ingredients for every celebration
+                finest ingredients for every celebration 🎉
               </Text>
 
-              <Stack direction={{ base: "column", sm: "row" }} gap={4} pt={4}>
+              <Stack direction={{ base: "column", sm: "row" }} gap={6} pt={6}>
                 <Button
-                  bg="black"
-                  color="white"
+                  bg="white"
+                  color="gray.800"
                   size="lg"
-                  px={10}
-                  py={7}
-                  fontSize="lg"
+                  px={12}
+                  py={8}
+                  fontSize="xl"
                   fontWeight="bold"
                   rounded="full"
                   _hover={{
-                    transform: "translateY(-3px)",
-                    boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
-                    bg: "gray.800",
+                    transform: "translateY(-4px) scale(1.05)",
+                    boxShadow: "0 25px 50px rgba(0,0,0,0.25)",
+                    bg: "gray.50",
                   }}
-                  transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-                  boxShadow="0 10px 30px rgba(0,0,0,0.2)"
+                  transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+                  boxShadow="0 15px 35px rgba(0,0,0,0.15)"
                 >
-                  <HStack gap={2}>
-                    <Icon as={ShoppingCart} boxSize={5} />
+                  <HStack gap={3}>
+                    <Icon as={ShoppingCart} boxSize={6} />
                     <Text>Browse Our Cakes</Text>
-                    <Icon as={ArrowRight} boxSize={5} />
+                    <Icon as={ArrowRight} boxSize={6} />
                   </HStack>
                 </Button>
 
                 <Button
                   variant="outline"
-                  borderColor="black"
-                  color="black"
+                  borderColor="white"
+                  color="white"
                   bg="whiteAlpha.200"
                   size="lg"
-                  px={10}
-                  py={7}
-                  fontSize="lg"
+                  px={12}
+                  py={8}
+                  fontSize="xl"
                   fontWeight="bold"
                   rounded="full"
-                  borderWidth="2px"
+                  borderWidth="3px"
                   _hover={{
                     bg: "whiteAlpha.300",
-                    transform: "translateY(-3px)",
-                    boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+                    transform: "translateY(-4px) scale(1.05)",
+                    boxShadow: "0 25px 50px rgba(255,255,255,0.2)",
                   }}
-                  transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-                  backdropFilter="blur(10px)"
+                  transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+                  backdropFilter="blur(20px)"
                 >
-                  <HStack gap={2}>
-                    <Icon as={Heart} boxSize={5} />
+                  <HStack gap={3}>
+                    <Icon as={Gift} boxSize={6} />
                     <Text>Custom Orders</Text>
                   </HStack>
                 </Button>
@@ -184,82 +312,200 @@ const Dashboard: React.FC = () => {
           </Container>
         </Box>
 
-        {/* Product Grid */}
-        <Container maxW="6xl" py={16} px={4}>
-          <Heading fontSize="3xl" mb={10} fontWeight="bold" textAlign="center">
-            Our Signature Cakes
-          </Heading>
+        {/* Enhanced Product Grid */}
+        <Container maxW="7xl" py={20} px={4}>
+          <VStack gap={12} mb={16}>
+            <Badge
+              colorScheme="purple"
+              px={6}
+              py={2}
+              rounded="full"
+              fontSize="sm"
+              fontWeight="bold"
+            >
+              OUR BESTSELLERS
+            </Badge>
 
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={10}>
+            <Heading
+              fontSize={{ base: "4xl", md: "5xl" }}
+              fontWeight="900"
+              textAlign="center"
+              bgGradient="linear(45deg, #FF6B6B, #4ECDC4)"
+              bgClip="text"
+              letterSpacing="-0.02em"
+            >
+              Signature Cakes
+            </Heading>
+
+            <Text fontSize="xl" color="gray.600" textAlign="center" maxW="2xl">
+              Each cake is a masterpiece, baked fresh daily with premium
+              ingredients and lots of love ❤️
+            </Text>
+          </VStack>
+
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={12}>
             {cakes.map((cake, index) => (
               <Box
                 key={index}
-                borderWidth="1px"
-                borderColor="gray.200"
-                rounded="lg"
+                bg="white"
+                borderWidth="0"
+                rounded="3xl"
                 overflow="hidden"
-                boxShadow="md"
-                _hover={{ boxShadow: "xl", transform: "translateY(-5px)" }}
-                transition="0.3s"
+                boxShadow="0 10px 40px rgba(0,0,0,0.1)"
+                _hover={{
+                  boxShadow: "0 25px 60px rgba(0,0,0,0.15)",
+                  transform: "translateY(-8px) scale(1.02)",
+                }}
+                transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+                position="relative"
               >
-                <Image
-                  src={cake.image}
-                  alt={cake.name}
-                  w="full"
-                  h="250px"
-                  objectFit="cover"
-                />
+                <Box position="relative">
+                  <Image
+                    src={cake.image || "/placeholder.svg"}
+                    alt={cake.name}
+                    w="full"
+                    h="280px"
+                    objectFit="cover"
+                  />
 
-                <Box p={6}>
-                  <HStack justify="space-between" mb={2}>
-                    <Heading fontSize="xl" fontWeight="bold">
+                  <Badge
+                    position="absolute"
+                    top={4}
+                    right={4}
+                    colorScheme={cake.badgeColor}
+                    px={4}
+                    py={2}
+                    rounded="full"
+                    fontSize="sm"
+                    fontWeight="bold"
+                    boxShadow="0 4px 12px rgba(0,0,0,0.15)"
+                  >
+                    {cake.badge}
+                  </Badge>
+
+                  <Box
+                    position="absolute"
+                    top={4}
+                    left={4}
+                    bg="whiteAlpha.900"
+                    rounded="full"
+                    p={2}
+                    backdropFilter="blur(10px)"
+                  >
+                    <Icon as={Heart} boxSize={5} color="red.400" />
+                  </Box>
+                </Box>
+
+                <Box p={8}>
+                  <VStack align="start" gap={4}>
+                    <Heading fontSize="2xl" fontWeight="bold" color="gray.800">
                       {cake.name}
                     </Heading>
-                    <Badge colorScheme="pink">{cake.badge}</Badge>
-                  </HStack>
 
-                  <Text color="gray.600" fontSize="sm" mb={4}>
-                    {cake.description}
-                  </Text>
-
-                  <HStack justify="space-between" mb={4}>
-                    <Text fontWeight="bold" fontSize="lg">
-                      {cake.price}
+                    <Text color="gray.600" fontSize="md" lineHeight="tall">
+                      {cake.description}
                     </Text>
 
-                    <HStack gap={1}>
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Icon
-                          key={i}
-                          as={Star}
-                          color={
-                            i < Math.round(cake.rating)
-                              ? "yellow.400"
-                              : "gray.300"
-                          }
-                          boxSize={4}
-                          fill={
-                            i < Math.round(cake.rating) ? "yellow.400" : "none"
-                          }
-                        />
-                      ))}
-                      <Text fontSize="sm" color="gray.500">
-                        ({cake.reviews})
+                    <HStack justify="space-between" w="full">
+                      <Text fontWeight="900" fontSize="2xl" color="purple.600">
+                        {cake.price}
                       </Text>
-                    </HStack>
-                  </HStack>
 
-                  <Button colorScheme="pink" variant="solid" size="md" w="full">
-                    <HStack justify="center" gap={2}>
-                      <Icon as={ShoppingCart} />
-                      <Text>Add to Cart</Text>
+                      <HStack gap={1}>
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Icon
+                            key={i}
+                            as={Star}
+                            color={
+                              i < Math.round(cake.rating)
+                                ? "yellow.400"
+                                : "gray.300"
+                            }
+                            boxSize={5}
+                            fill={
+                              i < Math.round(cake.rating)
+                                ? "yellow.400"
+                                : "none"
+                            }
+                          />
+                        ))}
+                        <Text fontSize="sm" color="gray.500" ml={2}>
+                          ({cake.reviews})
+                        </Text>
+                      </HStack>
                     </HStack>
-                  </Button>
+
+                    <Divider />
+
+                    <Button
+                      bgGradient="linear(45deg, #FF6B6B, #4ECDC4)"
+                      color="white"
+                      size="lg"
+                      w="full"
+                      rounded="xl"
+                      py={6}
+                      fontSize="lg"
+                      fontWeight="bold"
+                      _hover={{
+                        bgGradient: "linear(45deg, #FF5252, #26C6DA)",
+                        transform: "translateY(-2px)",
+                        boxShadow: "0 8px 25px rgba(255, 107, 107, 0.4)",
+                      }}
+                      transition="all 0.3s"
+                    >
+                      <HStack justify="center" gap={3}>
+                        <Icon as={ShoppingCart} boxSize={5} />
+                        <Text>Add to Cart</Text>
+                      </HStack>
+                    </Button>
+                  </VStack>
                 </Box>
               </Box>
             ))}
           </SimpleGrid>
         </Container>
+
+        {/* Call to Action Section */}
+        <Box
+          bgGradient="linear(135deg, #667eea 0%, #764ba2 100%)"
+          py={20}
+          px={4}
+        >
+          <Container maxW="4xl" textAlign="center">
+            <VStack gap={8}>
+              <Heading
+                fontSize={{ base: "3xl", md: "4xl" }}
+                color="white"
+                fontWeight="900"
+              >
+                Ready to Make Your Day Sweeter? 🍭
+              </Heading>
+
+              <Text fontSize="xl" color="whiteAlpha.900" maxW="2xl">
+                Join thousands of happy customers who trust us with their
+                special moments
+              </Text>
+
+              <Button
+                bg="white"
+                color="purple.600"
+                size="lg"
+                px={10}
+                py={6}
+                fontSize="lg"
+                fontWeight="bold"
+                rounded="full"
+                _hover={{
+                  transform: "translateY(-3px)",
+                  boxShadow: "0 20px 40px rgba(255,255,255,0.3)",
+                }}
+                transition="all 0.3s"
+              >
+                Order Now
+              </Button>
+            </VStack>
+          </Container>
+        </Box>
       </Box>
 
       <Footer />
