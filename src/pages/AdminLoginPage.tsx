@@ -12,6 +12,8 @@ import { Eye, EyeOff, LogIn } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/app/navbar"; // Adjust import path based on your project structure
+import Footer from "../components/app/Footer";
 
 interface AdminLoginProps {}
 
@@ -83,81 +85,96 @@ const AdminLoginPage: React.FC<AdminLoginProps> = () => {
   };
 
   return (
-    <Flex minH="100vh" align="center" justify="center" p={4}>
-      <Box
-        w="full"
-        maxW="md"
-        bg="white"
-        borderRadius="2xl"
-        boxShadow="lg"
-        p={8}
+    <>
+      <Navbar />
+
+      <Flex
+        minH="100vh"
+        align="center"
+        justify="center"
+        bg="gray.50"
+        px={4}
+        py={12}
       >
-        <Stack gap={6}>
-          <Heading fontSize="2xl" textAlign="center">
-            Admin Login
-          </Heading>
+        <Box
+          w="full"
+          maxW="md"
+          bg="white"
+          borderRadius="2xl"
+          boxShadow="xl"
+          p={8}
+          border="1px solid"
+          borderColor="gray.200"
+        >
+          <Stack gap={6}>
+            <Heading fontSize="2xl" textAlign="center" color="gray.800">
+              Admin Login
+            </Heading>
 
-          <Stack gap={2}>
-            <Text fontWeight="medium">Email address</Text>
-            <Input
-              type="email"
-              placeholder="admin@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              borderColor={emailError ? "red.500" : "gray.200"}
-              _focusVisible={{
-                borderColor: emailError ? "red.500" : "pink.500",
-              }}
-            />
-          </Stack>
-
-          <Stack gap={2}>
-            <Text fontWeight="medium">Password</Text>
-            <Box position="relative">
+            <Stack gap={2}>
+              <Text fontWeight="medium">Email address</Text>
               <Input
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                pr="3rem"
-                borderColor={passwordError ? "red.500" : "gray.200"}
+                type="email"
+                placeholder="admin@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                borderColor={emailError ? "red.500" : "gray.200"}
                 _focusVisible={{
-                  borderColor: passwordError ? "red.500" : "pink.500",
+                  borderColor: emailError ? "red.500" : "pink.500",
                 }}
               />
-              <IconButton
-                aria-label="Toggle password visibility"
-                variant="ghost"
-                size="sm"
-                position="absolute"
-                top="50%"
-                right="0.5rem"
-                transform="translateY(-50%)"
-                onClick={toggleShowPassword}
-              >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-              </IconButton>
-            </Box>
+            </Stack>
+
+            <Stack gap={2}>
+              <Text fontWeight="medium">Password</Text>
+              <Box position="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  pr="3rem"
+                  borderColor={passwordError ? "red.500" : "gray.200"}
+                  _focusVisible={{
+                    borderColor: passwordError ? "red.500" : "pink.500",
+                  }}
+                />
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  variant="ghost"
+                  size="sm"
+                  position="absolute"
+                  top="50%"
+                  right="0.5rem"
+                  transform="translateY(-50%)"
+                  onClick={toggleShowPassword}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </IconButton>
+              </Box>
+            </Stack>
+
+            <Button
+              colorScheme="pink"
+              size="lg"
+              borderRadius="xl"
+              gap={2}
+              onClick={handleAdminLogin}
+              loading={loading}
+            >
+              <LogIn size={18} />
+              Log In
+            </Button>
+
+            <Text textAlign="center" fontSize="sm" color="gray.600">
+              Don&apos;t have an account? <u>Sign up</u>
+            </Text>
           </Stack>
 
-          <Button
-            colorScheme="pink"
-            size="lg"
-            borderRadius="xl"
-            gap={2}
-            onClick={handleAdminLogin}
-            loading={loading}
-          >
-            <LogIn size={18} />
-            Log In
-          </Button>
-
-          <Text textAlign="center" fontSize="sm" color="gray.600">
-            Don&apos;t have an account? <u>Sign up</u>
-          </Text>
-        </Stack>
-      </Box>
-    </Flex>
+          <Footer />
+        </Box>
+      </Flex>
+    </>
   );
 };
 
