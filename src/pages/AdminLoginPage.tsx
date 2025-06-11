@@ -162,9 +162,10 @@ const AdminLoginPage: React.FC = () => {
                   right="0.5rem"
                   transform="translateY(-50%)"
                   onClick={toggleShowPassword}
-                >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </IconButton>
+                  _icon={{
+                    boxSize: 4,
+                  }}
+                />
               </Box>
             </Stack>
 
@@ -189,11 +190,11 @@ const AdminLoginPage: React.FC = () => {
 
       <Footer />
 
-      {/* Modal for error messages */}
+      {/* Error Modal */}
       <Modal isOpen={open} onClose={onClose} isCentered>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader color="red.500">Error</ModalHeader>
+        <ModalContent borderRadius="xl">
+          <ModalHeader color="red.500">Login Error</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text>{modalMessage}</Text>
