@@ -8,11 +8,10 @@ import {
   Stack,
   Text,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
 } from "@chakra-ui/react";
+
+import { Modal, ModalOverlay, ModalContent, ModalBody } from "@chakra-ui/modal";
+
 import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
@@ -53,8 +52,9 @@ const Navbar = () => {
               display={{ base: "flex", md: "none" }}
               onClick={onOpen}
               variant="ghost"
-              _icon={{ as: Menu }}
-            />
+            >
+              <Menu />
+            </IconButton>
           </HStack>
         </Container>
       </Box>
@@ -70,8 +70,9 @@ const Navbar = () => {
                 variant="ghost"
                 alignSelf="end"
                 onClick={onClose}
-                _icon={{ as: X }}
-              />
+              >
+                <X />
+              </IconButton>
               <Text fontWeight="medium" cursor="pointer" onClick={onClose}>
                 Home
               </Text>
